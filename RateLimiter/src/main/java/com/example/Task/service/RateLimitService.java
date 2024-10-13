@@ -1,5 +1,6 @@
 package com.example.Task.service;
 
+import com.example.Task.Exception.NotFoundException;
 import com.example.Task.entity.RateLimit;
 import com.example.Task.repository.RateLimitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class RateLimitService {
     public boolean checkLimit(int userId) throws Throwable {
 
         RateLimit userLimit = (RateLimit) rateLimitRepository.findUserLimitById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
 
